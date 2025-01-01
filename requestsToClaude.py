@@ -10,9 +10,24 @@ load_dotenv()
 anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
 
 # Connect to Anthropics API
-
 claude = anthropic.Anthropic()
 
+# FIRST WAY TO CALL ANTHROPIC API - FUNCTIONAL
+system_message = "You are a helpful assistant"
+
+def message_claude(prompt):
+    response = claude.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        max_tokens=200,
+        temperature=0.7,
+        system=system_message,
+        messages=[
+            {"role": "user","content":prompt}
+        ]
+    )
+    return response.content[0].text
+
+# END OF FIRST WAY TO CALL ANTHROPIC API
 system_message = "You are an assistant that is great at python."
 user_prompt = """Can you explain what is this code doing: 
 with result as stream:
